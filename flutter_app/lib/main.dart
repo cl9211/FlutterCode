@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/flutter_layout_page.dart';
+import 'package:flutter_app/gesture_page.dart';
 import 'package:flutter_app/plugin_use.dart';
 import 'package:flutter_app/stateful_group_page.dart';
 
@@ -50,7 +51,8 @@ class _DynamicThemeState extends State<DynamicTheme> {
         "plugin": (BuildContext context) => PluginUse(),
         "stateless": (BuildContext context) => LessGroupPage(),
         "stateful": (BuildContext context) => StatefulGroupPage(),
-        "flutter_layout": (BuildContext context) => FlutterLayoutPage()
+        "flutter_layout": (BuildContext context) => FlutterLayoutPage(),
+        "gesture": (BuildContext context) => GesturePage()
       },
     );
   }
@@ -82,6 +84,7 @@ class _RouteNavigatorState extends State<RouteNavigator> {
           _item("StatelessWidget与基础组件", LessGroupPage(), "stateless"),
           _item("StatefulWidget使用", StatefulGroupPage(), "stateful"),
           _item("如何进行Flutter布局开发", FlutterLayoutPage(), "flutter_layout"),
+          _item("如何检测用户手势以及处理点击事件", GesturePage(), "gesture"),
         ],
       ),
     );

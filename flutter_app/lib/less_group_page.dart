@@ -32,6 +32,7 @@ class LessGroupPage extends StatelessWidget {
               ),
               CloseButton(),
               BackButton(),
+
               Chip(
                 backgroundColor: Colors.blue,
                 avatar: Icon(Icons.people),
