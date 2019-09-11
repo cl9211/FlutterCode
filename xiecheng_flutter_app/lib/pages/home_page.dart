@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:xiecheng_flutter_app/dao/home_dao.dart';
 import 'package:xiecheng_flutter_app/model/home_model.dart';
+import 'package:xiecheng_flutter_app/widget/grid_nav.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
 
@@ -54,10 +55,14 @@ class _HomePageState extends State<HomePage> {
                           SwiperPagination(builder: SwiperPagination.dots),
                     ),
                   ),
+                  GridNav(
+                    gridNavModel: null,
+                    name: "xiaoming",
+                  ),
                   Container(
                     height: 800,
                     child: ListTile(
-                      title: Text(resultString),
+                      title: Text(""),
                     ),
                   )
                 ],
