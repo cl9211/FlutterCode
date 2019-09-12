@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:xiecheng_flutter_app/dao/home_dao.dart';
+import 'package:xiecheng_flutter_app/model/common_model.dart';
 import 'package:xiecheng_flutter_app/model/home_model.dart';
 import 'package:xiecheng_flutter_app/widget/grid_nav.dart';
+import 'package:xiecheng_flutter_app/widget/local_nav.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
 
@@ -23,64 +25,69 @@ class _HomePageState extends State<HomePage> {
   double appBarAlpha = 0;
   String resultString = '';
 
+  List<CommonModel> localNavList = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Color(0xfff2f2f2),
         body: Stack(
-      children: <Widget>[
-        MediaQuery.removePadding(
-            removeTop: true,
-            context: context,
-            child: NotificationListener(
-              onNotification: (scrollNotification) {
-                if (scrollNotification is ScrollUpdateNotification &&
-                    scrollNotification.depth == 0) {
-                  _onScroll(scrollNotification.metrics.pixels);
-                }
-              },
-              child: ListView(
-                children: <Widget>[
-                  Container(
-                    height: 160,
-                    child: Swiper(
-                      itemCount: _imageUrls.length,
-                      autoplay: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Image.network(
-                          _imageUrls[index],
-                          fit: BoxFit.fill,
-                        );
-                      },
-                      pagination:
-                          SwiperPagination(builder: SwiperPagination.dots),
-                    ),
+          children: <Widget>[
+            MediaQuery.removePadding(
+                removeTop: true,
+                context: context,
+                child: NotificationListener(
+                  onNotification: (scrollNotification) {
+                    if (scrollNotification is ScrollUpdateNotification &&
+                        scrollNotification.depth == 0) {
+                      _onScroll(scrollNotification.metrics.pixels);
+                    }
+                  },
+                  child: ListView(
+                    children: <Widget>[
+                      Container(
+                        height: 160,
+                        child: Swiper(
+                          itemCount: _imageUrls.length,
+                          autoplay: true,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Image.network(
+                              _imageUrls[index],
+                              fit: BoxFit.fill,
+                            );
+                          },
+                          pagination:
+                              SwiperPagination(builder: SwiperPagination.dots),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
+                        child: LocalNav(
+                          localNavList: localNavList,
+                        ),
+                      ),
+                      Container(
+                        height: 800,
+                        child: ListTile(
+                          title: Text(""),
+                        ),
+                      )
+                    ],
                   ),
-                  GridNav(
-                    gridNavModel: null,
-                    name: "xiaoming",
-                  ),
-                  Container(
-                    height: 800,
-                    child: ListTile(
-                      title: Text(""),
-                    ),
-                  )
-                ],
+                )),
+            Opacity(
+              opacity: appBarAlpha,
+              child: Container(
+                height: 80,
+                decoration: BoxDecoration(color: Colors.white),
+                child: Center(
+                  child: Padding(
+                      child: Text("首页"), padding: EdgeInsets.only(top: 20)),
+                ),
               ),
-            )),
-        Opacity(
-          opacity: appBarAlpha,
-          child: Container(
-            height: 80,
-            decoration: BoxDecoration(color: Colors.white),
-            child: Center(
-              child:
-                  Padding(child: Text("首页"), padding: EdgeInsets.only(top: 20)),
-            ),
-          ),
-        )
-      ],
-    ));
+            )
+          ],
+        ));
   }
 
   @override
@@ -105,21 +112,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   loadData() async {
-    /*try {
+    try {
       HomeModel model = await HomeDao.fetch();
       setState(() {
-        resultString = json.encode(model.config);
+        localNavList = model.localNavList;
       });
     } catch (e) {
       setState(() {
-        resultString = e.toString();
+        print(e);
       });
-    }*/
-
-    HomeModel model = await HomeDao.fetch();
-    setState(() {
-      resultString = json.encode(model.gridNav);
-    });
+    }
 
 /*
     HomeDao.fetch().then((result) {
