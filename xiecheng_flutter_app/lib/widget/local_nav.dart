@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:xiecheng_flutter_app/model/common_model.dart';
-import 'package:xiecheng_flutter_app/model/grid_nav_model.dart';
 import 'package:xiecheng_flutter_app/widget/webview.dart';
 
 class LocalNav extends StatelessWidget {
