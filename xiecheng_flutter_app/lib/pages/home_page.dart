@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:xiecheng_flutter_app/dao/home_dao.dart';
 import 'package:xiecheng_flutter_app/model/common_model.dart';
+import 'package:xiecheng_flutter_app/model/grid_nav_model.dart';
 import 'package:xiecheng_flutter_app/model/home_model.dart';
 import 'package:xiecheng_flutter_app/widget/grid_nav.dart';
 import 'package:xiecheng_flutter_app/widget/local_nav.dart';
@@ -16,6 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   List _imageUrls = [
     "http://pages.ctrip.com/commerce/promote/20180718/yxzy/img/640sygd.jpg",
     "https://dimg04.c-ctrip.com/images/700u0r000000gxvb93E54_810_235_85.jpg",
@@ -26,6 +28,7 @@ class _HomePageState extends State<HomePage> {
   String resultString = '';
 
   List<CommonModel> localNavList = [];
+  GridNavModel gridNavModel;
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +67,12 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
                         child: LocalNav(
                           localNavList: localNavList,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(7, 0, 7, 4),
+                        child: GridNav(
+                          gridNavModel: gridNavModel,
                         ),
                       ),
                       Container(
@@ -116,6 +125,7 @@ class _HomePageState extends State<HomePage> {
       HomeModel model = await HomeDao.fetch();
       setState(() {
         localNavList = model.localNavList;
+        gridNavModel = model.gridNav;
       });
     } catch (e) {
       setState(() {
