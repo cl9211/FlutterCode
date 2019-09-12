@@ -72,21 +72,21 @@ class SalesBox extends StatelessWidget {
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: items.sublist(0, 1),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: items.sublist(1, 2),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: items.sublist(2, 3),
-              ),
             ],
           ),
-        )
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: items.sublist(0, 1),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: items.sublist(1, 2),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: items.sublist(2, 3),
+        ),
       ],
     );
   }
