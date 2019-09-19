@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:xiecheng_flutter_app/dao/travel_dao.dart';
 import 'package:xiecheng_flutter_app/model/travel_model.dart';
+import 'package:xiecheng_flutter_app/widget/loading_container.dart';
 import 'package:xiecheng_flutter_app/widget/webview.dart';
 
 const _TRAVEL_URL =
@@ -24,13 +25,22 @@ class _TravelTabPageState extends State<TravelTabPage>
     with AutomaticKeepAliveClientMixin {
   List<TravelItem> travelItems;
   int pageIndex = 1;
+  bool _loading = true;
+  ScrollController _scrollController = ScrollController();
 
   @override
+  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 
   @override
   void initState() {
     _loadData();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _loadData(loadMore: true);
+      }
+    });
     super.initState();
   }
 
@@ -42,21 +52,38 @@ class _TravelTabPageState extends State<TravelTabPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: StaggeredGridView.countBuilder(
-      crossAxisCount: 4,
-      itemCount: travelItems?.length ?? 0,
-      itemBuilder: (BuildContext context, int index) => _TravelItem(
-        index: index,
-        item: travelItems[index],
-      ),
-      staggeredTileBuilder: (int index) => new StaggeredTile.fit(2),
-    ));
+        body: LoadingContainer(
+            isLoading: _loading,
+            child: RefreshIndicator(
+                child: MediaQuery.removePadding(
+                    removeTop: true,
+                    context: context,
+                    child: StaggeredGridView.countBuilder(
+                      controller: _scrollController,
+                      crossAxisCount: 4,
+                      itemCount: travelItems?.length ?? 0,
+                      itemBuilder: (BuildContext context, int index) =>
+                          _TravelItem(
+                        index: index,
+                        item: travelItems[index],
+                      ),
+                      staggeredTileBuilder: (int index) =>
+                          new StaggeredTile.fit(2),
+                    )),
+                onRefresh: _handleRefresh)));
   }
 
-  void _loadData() {
+  void _loadData({loadMore = false}) {
+    if (loadMore) {
+      pageIndex++;
+    } else {
+      pageIndex = 1;
+    }
+
     TravelDao.fetch(widget.travelUrl ?? _TRAVEL_URL, widget.groupChannelCode,
             pageIndex, PAGE_SIZE)
         .then((TravelItemModel model) {
+      _loading = false;
       setState(() {
         List<TravelItem> items = _filterItems(model.resultList);
         if (travelItems != null) {
@@ -66,6 +93,7 @@ class _TravelTabPageState extends State<TravelTabPage>
         }
       });
     }).catchError((e) {
+      _loading = false;
       print(e);
     });
   }
@@ -82,6 +110,11 @@ class _TravelTabPageState extends State<TravelTabPage>
       }
     });
     return filterItems;
+  }
+
+  Future<Null> _handleRefresh() async {
+    _loadData();
+    return null;
   }
 }
 
@@ -114,6 +147,16 @@ class _TravelItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               _itemImage(),
+              Container(
+                padding: EdgeInsets.all(4),
+                child: Text(
+                  item.article.articleTitle,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 14, color: Colors.black87),
+                ),
+              ),
+              _infoText()
             ],
           ),
         ),
@@ -153,7 +196,6 @@ class _TravelItem extends StatelessWidget {
                     style: TextStyle(color: Colors.white, fontSize: 12),
                   ),
                 ),
-                _infoText()
               ],
             ),
           ),
