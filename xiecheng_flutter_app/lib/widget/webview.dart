@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:xiecheng_flutter_app/util/navigator_util.dart';
 
 const CATCH_URLS = ['m.ctrip.com/', 'm.ctrip.com/html5/', 'm.ctrip.com/html5'];
 
@@ -46,7 +47,7 @@ class _WebViewState extends State<WebView> {
             if (widget.backForbid) {
               webViewReference.launch(widget.url);
             } else {
-              Navigator.pop(context);
+              NavigatorUtil.pop(context);
               exiting = true;
             }
           }
@@ -133,7 +134,7 @@ class _WebViewState extends State<WebView> {
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                Navigator.pop(context);
+                NavigatorUtil.pop(context);
               },
               child: Container(
                 margin: EdgeInsets.only(left: 10),

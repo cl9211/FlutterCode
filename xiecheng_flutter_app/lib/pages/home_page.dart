@@ -7,6 +7,7 @@ import 'package:xiecheng_flutter_app/model/grid_nav_model.dart';
 import 'package:xiecheng_flutter_app/model/home_model.dart';
 import 'package:xiecheng_flutter_app/model/sales_box_model.dart';
 import 'package:xiecheng_flutter_app/pages/search_page.dart';
+import 'package:xiecheng_flutter_app/util/navigator_util.dart';
 import 'package:xiecheng_flutter_app/widget/grid_nav.dart';
 import 'package:xiecheng_flutter_app/widget/loading_container.dart';
 import 'package:xiecheng_flutter_app/widget/local_nav.dart';
@@ -113,14 +114,13 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: () {
-              Navigator.push(
+              NavigatorUtil.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => WebView(
-                            url: bannerList[index].url,
-                            statusBarColor: bannerList[index].statusBarColor,
-                            hideAppBar: bannerList[index].hideAppBar,
-                          )));
+                  WebView(
+                    url: bannerList[index].url,
+                    statusBarColor: bannerList[index].statusBarColor,
+                    hideAppBar: bannerList[index].hideAppBar,
+                  ));
             },
             child: Image.network(
               bannerList[index].icon,
@@ -221,11 +221,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _jumpToSearch() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return SearchPage(
-        hint: SEARCH_BAR_DEFAULT_TEXT,
-      );
-    }));
+    NavigatorUtil.push(
+        context,
+        SearchPage(
+          hint: SEARCH_BAR_DEFAULT_TEXT,
+        ));
   }
 
   void _jumpToSpeak() {}

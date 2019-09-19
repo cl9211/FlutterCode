@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xiecheng_flutter_app/model/common_model.dart';
 import 'package:xiecheng_flutter_app/model/grid_nav_model.dart';
+import 'package:xiecheng_flutter_app/util/navigator_util.dart';
 import 'package:xiecheng_flutter_app/widget/webview.dart';
 
 class GridNav extends StatelessWidget {
@@ -137,14 +138,13 @@ class GridNav extends StatelessWidget {
   _wrapGesture(BuildContext context, Widget widget, CommonModel model) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
+        NavigatorUtil.push(
             context,
-            MaterialPageRoute(
-                builder: (context) => WebView(
-                      url: model.url,
-                      statusBarColor: model.statusBarColor,
-                      hideAppBar: model.hideAppBar,
-                    )));
+            WebView(
+              url: model.url,
+              statusBarColor: model.statusBarColor,
+              hideAppBar: model.hideAppBar,
+            ));
       },
       child: widget,
     );
