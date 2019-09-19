@@ -6,9 +6,9 @@ import 'package:xiecheng_flutter_app/model/travel_tab_model.dart';
 class TravelTabDao {
   static Future<TravelTabModel> fetch() async {
     final response = await http
-        .get("http://www.devio.org/io/flutter_app/json/travel_page.json");
-    if(response.statusCode == 200) {
-      Utf8Decoder utf8decoder = Utf8Decoder();
+        .get('http://www.devio.org/io/flutter_app/json/travel_page.json');
+    if (response.statusCode == 200) {
+      Utf8Decoder utf8decoder = Utf8Decoder(); // fix 中文乱码
       var result = json.decode(utf8decoder.convert(response.bodyBytes));
       return TravelTabModel.fromJson(result);
     } else {

@@ -20,6 +20,7 @@ class _TabNavigatorState extends State<TabNavigator> {
     return MaterialApp(
       home: Scaffold(
         body: PageView(
+          physics: NeverScrollableScrollPhysics(),
           controller: _controller,
           children: <Widget>[
             HomePage(),
