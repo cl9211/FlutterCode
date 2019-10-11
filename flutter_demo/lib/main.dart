@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/across_screens.dart';
 import 'package:flutter_demo/fonts_demo.dart';
 import 'package:flutter_demo/home_page.dart';
+import 'package:flutter_demo/navigation_basics.dart';
 import 'package:flutter_demo/tab_demo.dart';
 import 'package:flutter_demo/theme.dart';
 
 import 'dismissing_items.dart';
 import 'fade_in_images.dart';
+import 'fetch_data_example.dart';
 import 'floating_app_bar.dart';
 import 'focus_demo.dart';
 import 'form_demo.dart';
@@ -59,6 +62,14 @@ class _RouteNavigatorState extends State<RouteNavigator> {
               ),
               'multipleTypeList'),
           _item('FloatingAppBar', FloatingAppBar(), 'floatingAppBar'),
+          _item('AcrossScreens', MainScreen(), 'acrossScreens'),
+          _item('NaviagtionBasics', FirstRoute(), 'naviagtionBasics'),
+          _item(
+              'Fetch Data Example',
+              FetchData(
+                post: fetchPost(),
+              ),
+              ''),
         ],
       ),
     );
